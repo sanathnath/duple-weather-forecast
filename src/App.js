@@ -27,7 +27,7 @@ function App() {
       // console.log(currentLocation);
       axios
         .get(
-          "http://api.weatherstack.com/forecast?access_key=9b9d020fda6189eb11a1c3b54f276778&query=" +
+          "//api.weatherstack.com/forecast?access_key=9b9d020fda6189eb11a1c3b54f276778&query=" +
             str
         )
         .then((res) => {
