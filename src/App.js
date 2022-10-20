@@ -3,16 +3,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
+import ErrorMessage from "./components/ErrorMessage";
+import Loading from "./components/Loading";
 import HomePage from "./pages/HomePage";
 import {
+  get_current_date,
   get_current_location,
   get_weather,
+  set_error,
 } from "./redux/reducers/weatherReducer";
 import { theme } from "./theme";
 
+
 function App() {
-  const [loc, setLoc] = useState("");
-  const { currentLocation, weatherData } = useSelector((state) => {
+  const { currentLocation, weatherData, error } = useSelector((state) => {
     return state.weather;
   });
   const dispatch = useDispatch();
@@ -22,27 +26,47 @@ function App() {
       let lat = pos.coords.latitude;
       let lon = pos.coords.longitude;
       const str = `${lat},${lon}`;
-      // dispatch(get_current_location(str));
-      // setLoc(str);
-      // console.log(currentLocation);
-      axios
-        .get(
-          "http://api.weatherstack.com/forecast?access_key=9b9d020fda6189eb11a1c3b54f276778&query=" +
-            str
-        )
-        .then((res) => {
-          dispatch(get_weather(res.data));
-          console.log(res.data);
-        });
+      dispatch(get_current_location(str));
     });
   }, []);
+
+  useEffect(() => {
+    if(currentLocation !== ""){axios
+      .get(
+        "http://api.weatherstack.com/forecast?access_key=9b9d020fda6189eb11a1c3b54f276778&query=" +
+        currentLocation
+      )
+      .then((res) => {
+            if(res.data.success !== undefined && res.data.success === false){
+              dispatch(set_error(true));
+              return;
+            }
+        console.log(res.data.success);
+        dispatch(get_weather(res.data));
+           dispatch(set_error(false));
+        getTimeAndDate(res.data.location.localtime);
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }, [currentLocation]);
+
+  const getTimeAndDate = (dateStr) => {
+    let index = dateStr.indexOf(" ");
+    let date = dateStr.slice(0, index + 1);
+    let time = dateStr.slice(index);
+    dispatch(get_current_date({ time: time.trim(), date: date.trim() }));
+  };
+
   console.log(currentLocation);
-  useEffect(() => {}, []);
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        {Object.keys(weatherData).length != 0 ? <HomePage /> : "loading"}
+        {Object.keys(weatherData).length != 0 ? <HomePage /> : <Loading /> }
+        {error && <ErrorMessage /> }
       </div>
     </ThemeProvider>
   );

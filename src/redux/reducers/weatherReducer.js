@@ -4,6 +4,7 @@ const initialState = {
   currentLocation: "",
   weatherData: {},
   currentDate: {},
+  error: false
 };
 
 export const weatherSlice = createSlice({
@@ -19,10 +20,13 @@ export const weatherSlice = createSlice({
     get_current_date: (state, action) => {
       state.currentDate = action.payload;
     },
+    set_error: (state, action) => {
+      state.error = action.payload;
+    }
   },
 });
 
-export const { get_current_location, get_weather, get_current_date } =
+export const { get_current_location, get_weather, get_current_date, set_error } =
   weatherSlice.actions;
 
 export default weatherSlice.reducer;

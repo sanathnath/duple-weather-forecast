@@ -8,29 +8,20 @@ import {
 } from "../redux/reducers/weatherReducer";
 
 function Header() {
+  const [input, setInput] = useState("");
   const [time, setTime] = useState({ time: "", date: "" });
 
   const dispatch = useDispatch();
 
-  const { weatherData } = useSelector((state) => {
-    console.log(state.weather);
+  const { weatherData, currentDate } = useSelector((state) => {
     return state.weather;
   });
 
-  const getTimeAndDate = (dateStr) => {
-    let index = dateStr.indexOf(" ");
-    let date = dateStr.slice(0, index + 1);
-    let time = dateStr.slice(index);
-    setTime({ time: time, date: date });
-    dispatch(get_current_date({ time: time, date: date }));
-  };
-
-  useEffect(() => {
-    getTimeAndDate(weatherData.location.localtime);
-  }, []);
 
   const handleSearch = (event) => {
-    dispatch(get_current_location(event.target.value));
+    event.preventDefault();
+    console.log(input);
+    dispatch(get_current_location(input));
   };
 
   return (
@@ -56,19 +47,25 @@ function Header() {
       <Box padding="0 1rem" borderLeft="4px solid white">
         <Typography variant="h5" component="div">
           <Box color="white" letterSpacing={2}>
-            {time.time}
+            {currentDate.time}
           </Box>
         </Typography>
         <Typography variant="subtitle1" component="div">
           <Box color="white" fontWeight="fontWeightBold" letterSpacing={4}>
-            {time.date}
+            {currentDate.date}
           </Box>
         </Typography>
       </Box>
       <Box>
-        {/* <form onSubmit={handleSearch}>
-          <TextField label="search city" />
-        </form> */}
+        <form onSubmit={handleSearch}>
+          <TextField
+            label="search city"
+            name="search"
+            onChange={(event) => {
+              setInput(event.target.value);
+            }}
+          />
+        </form>
       </Box>
     </Box>
   );

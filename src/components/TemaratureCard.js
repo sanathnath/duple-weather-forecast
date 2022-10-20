@@ -13,9 +13,10 @@ const useStyle = makeStyles(() => ({
 function TemaratureCard({ data }) {
   const classes = useStyle();
 
-  const { currentDate } = useSelector((state) => {
+  const { currentDate, weatherData } = useSelector((state) => {
     return state.weather;
   });
+  console.log(weatherData.forecast[Object.keys(weatherData.forecast)[0]].maxtemp)
 
   return (
     <Paper elevation={0} className={classes.mainCard}>
@@ -41,13 +42,13 @@ function TemaratureCard({ data }) {
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between">
-        {/* <Box display="flex" color="white" alignItems="center">
+        <Box display="flex" color="white" alignItems="center">
           <Typography variant="subtitle1" component="div">
               <Box color="white" fontWeight="fontWeightBold">
                 Min: 
               </Box>
             </Typography>
-            <Typography> 22</Typography>
+            <Typography> {weatherData.forecast[Object.keys(weatherData.forecast)[0]].mintemp}</Typography>
           </Box>
           <Box display="flex" color="white" alignItems="center">
           <Typography variant="subtitle1" component="div">
@@ -55,8 +56,8 @@ function TemaratureCard({ data }) {
                 Max: 
               </Box>
             </Typography>
-            <Typography> 22</Typography>
-          </Box> */}
+            <Typography> {weatherData.forecast[Object.keys(weatherData.forecast)[0]].maxtemp}</Typography>
+          </Box>
       </Box>
     </Paper>
   );
