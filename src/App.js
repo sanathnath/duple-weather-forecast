@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import ErrorMessage from "./components/ErrorMessage";
 import Loading from "./components/Loading";
+import { getWeatherApi } from "./constants/api";
 import HomePage from "./pages/HomePage";
 import {
   get_current_date,
@@ -31,21 +32,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if(currentLocation !== ""){axios
-      .get(
-        "http://api.weatherstack.com/forecast?access_key=9b9d020fda6189eb11a1c3b54f276778&query=" +
-        currentLocation
+    console.log(currentLocation);
+    if(currentLocation !== ""){
+      axios.get(
+        getWeatherApi(currentLocation)
       )
       .then((res) => {
             if(res.data.success !== undefined && res.data.success === false){
               dispatch(set_error(true));
               return;
             }
-        console.log(res.data.success);
+        console.log(res.data);
         dispatch(get_weather(res.data));
            dispatch(set_error(false));
         getTimeAndDate(res.data.location.localtime);
-
       })
       .catch((err) => {
         console.log(err);
@@ -65,7 +65,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        {Object.keys(weatherData).length != 0 ? <HomePage /> : <Loading /> }
+        {Object.keys(weatherData).length !== 0 ? <HomePage /> : <Loading /> }
         {error && <ErrorMessage /> }
       </div>
     </ThemeProvider>

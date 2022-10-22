@@ -6,7 +6,16 @@ export const theme = createTheme({
             main:colors.blue[400]
         },
         secondary:{
-            main:colors.blue[600]
+            main:colors.grey[400]
         }
-    }
+    },
+    breakpoints: {
+        values: {
+          xs: 0,
+          sm: 550,
+          md: 750,
+          lg: 1280,
+          xl: 1920,
+        },
+      },
 })

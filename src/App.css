@@ -1,6 +1,15 @@
+html{
+  height: 100%;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+.App{
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  background-image:linear-gradient(to right bottom, #6DBFFB, #6DBFFB, #c4eaff, #ebf2ff, #ffffff);
+}

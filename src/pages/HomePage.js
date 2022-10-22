@@ -6,12 +6,9 @@ import MainSection from "../components/MainSection";
 function HomePage() {
   return (
     <Box
-      style={{
-        backgroundImage:
-          "linear-gradient(to right bottom, #6DBFFB, #6DBFFB, #c4eaff, #ebf2ff, #ffffff)",
-      }}
-      width="100%"
-      height="100vh"
+    display="flex"
+    flexDirection="column"
+    style={{"backgroundImage":"linear-gradient(to right bottom, #6DBFFB, #6DBFFB, #c4eaff, #ebf2ff, #ffffff)"}}
     >
       <Header />
       <MainSection />

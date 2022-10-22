@@ -1,14 +1,24 @@
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
   sideCard: {
-    width: "14rem",
+    width: "100%",
     height: "17rem",
     padding: "2rem 3rem",
     color: "white",
     backgroundColor: "rgba(70, 72, 73, 0.13)",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      height: "17rem",
+      padding: "2rem 0.5rem",
+    },
+    [theme.breakpoints.down('sm')]:{
+      height: "10rem",
+      padding: "0.5rem 1rem",
+    }
   },
+  
 }));
 
 function SideCard({ title, firstLabel, firstValue, secondLabel, secondValue }) {
@@ -22,9 +32,11 @@ function SideCard({ title, firstLabel, firstValue, secondLabel, secondValue }) {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        padding="2rem 1rem"
+        padding="1rem 1rem"
       >
-        <Typography variant={"h6"}>{title}</Typography>
+        <Typography variant={"h6"}>
+          {title}
+          </Typography>
       </Box>
       <Box>
         <Typography>
